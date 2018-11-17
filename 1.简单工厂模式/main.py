@@ -14,33 +14,12 @@ version: 1.1.3
     通过封装、继承、多态把程序的耦合性降低，
     用设计模式使程序更加灵活，容易修改，并且易于复用
 2.将业务逻辑与界面逻辑分开来，使其耦合性下降
+
+version: 1.1.4
+1.简单工厂模式
+2.UML：继承、实现、关联、依赖、聚合、合成
 """
 import sys
-
-
-def calculator(number_a, number_b, symbol):
-    """
-
-    :param number_a:
-    :param number_b:
-    :param str symbol: 运算符号
-    :return: The result
-    """
-    number_a = float(number_a)
-    number_b = float(number_b)
-
-    if symbol == '+':
-        return number_a + number_b
-    elif symbol == '-':
-        return number_a - number_b
-    elif symbol == '*':
-        return number_a * number_b
-    elif symbol == '/':
-        if number_b == 0:
-            exit_with_info('除数不能为0')
-        return number_a / number_b
-    else:
-        exit_with_info('请输入正确的运算符号')
 
 
 def exit_with_info(info):
@@ -53,11 +32,85 @@ def exit_with_info(info):
     sys.exit(-1)
 
 
+class OperationFactory(object):
+    """简单工厂类"""
+    @staticmethod
+    def create_operate(operate):
+        """
+
+        :param operate:
+        :return:
+        """
+        if operate == '+':
+            oper = OperationAdd()
+        elif operate == '-':
+            oper = OperationSub()
+        elif operate == '*':
+            oper = OperationMul()
+        elif operate == '/':
+            oper = OperationDiv()
+        else:
+            exit_with_info('[error]请输入正确的运算符')
+        return oper
+
+
+class Operation(object):
+    """运算类"""
+    number_a = 0
+    number_b = 0
+
+    def get_result(self):
+        result = 0
+        return result
+
+
+class OperationAdd(Operation):
+    """加法类"""
+    def get_result(self):
+        number_a = float(self.number_a)
+        number_b = float(self.number_b)
+
+        result = number_a + number_b
+        return result
+
+
+class OperationSub(Operation):
+    """减法类"""
+    def get_result(self):
+        number_a = float(self.number_a)
+        number_b = float(self.number_b)
+
+        result = number_a - number_b
+        return result
+
+
+class OperationMul(Operation):
+    """乘法类"""
+    def get_result(self):
+        number_a = float(self.number_a)
+        number_b = float(self.number_b)
+
+        result = number_a * number_b
+        return result
+
+
+class OperationDiv(Operation):
+    """除法类"""
+    def get_result(self):
+        number_a = float(self.number_a)
+        number_b = float(self.number_b)
+        if number_b == 0:
+            exit_with_info('[error]除数不能为0')
+
+        result = number_a / number_b
+        return result
+
+
 def main():
-    number_a = input('请输入数字A：')
-    number_b = input('请输入数字B：')
-    symbol = input('请输入运算符：')
-    result = calculator(number_a, number_b, symbol)
+    oper = OperationFactory.create_operate('/')
+    oper.number_a = 20
+    oper.number_b = 0
+    result = oper.get_result()
     print(result)
 
 

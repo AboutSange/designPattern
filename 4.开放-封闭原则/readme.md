@@ -1,0 +1,1 @@
+> 软件实体（类、对象、函数等）应该可以扩展，但是不可修改（Open for extension, Closed for modification）
